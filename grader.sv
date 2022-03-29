@@ -62,12 +62,23 @@ module zoodCalc(
             Zo1, Zo2, Zo3, Zo4, Zo5, Zo6,
             Zo7, Zo8, Zo9, Zo10, Zo11, Zo12,
             Zsel1, Zsel2, Zsel3, Zsel4,
-            Zno1, Zno2, Zno3, Zno4;
+            Zno1, Zno2, Zno3, Zno4,
+            Zcan1, Zcan2, Zcan3, Zcan4,Zcan5,Zcan6,
+            temp86,
+            temp531, temp532,
+            temp201, temp202, temp203;
 
     comparator  c1(masterPattern[11:9],Guess[11:9],Zn1),
                 c2(masterPattern[8:6], Guess[8:6], Zn2),
                 c3(masterPattern[5:3], Guess[5:3], Zn3),
                 c4(masterPattern[2:0], Guess[2:0], Zn4);
+
+    comparator  f1(masterPattern[11:9],masterPattern[8:6],Zcan1),
+                f2(masterPattern[11:9],masterPattern[5:3],Zcan2),
+                f3(masterPattern[11:9],masterPattern[2:0],Zcan3),
+                f4(masterPattern[8:6],masterPattern[5:3],Zcan4),
+                f5(masterPattern[8:6],masterPattern[2:0],Zcan5),
+                f6(masterPattern[5:3],masterPattern[2:0],Zcan6);
 
     comparator  a1(masterPattern[11:9],Guess[8:6], Zo1),
                 a2(masterPattern[11:9],Guess[5:3], Zo2),
@@ -88,11 +99,18 @@ module zoodCalc(
             d4(Zo10,Zo11,Zo12,Zsel4);
 
     Mux2to1 #(1)    e1(Zsel1, 1'b0, ~Zn1, Zno1),
-                    e2(Zsel2, 1'b0, ~Zn2, Zno2),
-                    e3(Zsel3, 1'b0, ~Zn3, Zno3),
-                    e4(Zsel4, 1'b0, ~Zn4, Zno4);
+                    e2(Zsel2, 1'b0, ~Zn2, temp86),
+                    e3(Zsel3, 1'b0, ~Zn3, temp531),
+                    e4(Zsel4, 1'b0, ~Zn4, temp201);
 
-    adder f1(Zno1, Zno2, Zno3, Zno4, zood);
+    Canceller   e5(temp86,Zcan1,Zno2),
+                e6(temp531,Zcan2,temp532),
+                e7(temp532,Zcan4,Zno3),
+                e8(temp201,Zcan3,temp202),
+                e9(temp202,Zcan5,temp203),
+                e10(temp203,Zcan6,Zno4);
+
+    adder g1(Zno1, Zno2, Zno3, Zno4, zood);
 
 endmodule: zoodCalc
 
@@ -153,6 +171,14 @@ module Or3to1(
     end
 
 endmodule: Or3to1
+
+module Canceller
+        (input logic value, overlap,
+        output logic out);
+
+    assign out = (overlap) ? 0 : value;
+
+endmodule: Canceller
 
 module Register(
         input logic [11:0] change,
