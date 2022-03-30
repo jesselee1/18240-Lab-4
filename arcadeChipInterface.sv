@@ -42,7 +42,7 @@ module arcadeChipInterface(
         BCD7 = 4'd0;
         BCD6 = 4'd0;
         BCD5 = 4'd0;
-        BCD4 = leftOver
+        BCD4 = leftOver;
         BCD3 = Znarly;
         BCD2 = Zood;
         BCD1 = RoundNumber;
