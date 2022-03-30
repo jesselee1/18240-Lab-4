@@ -4,7 +4,7 @@ module arcadeChipInterface(
         input logic CLOCK_50,
         input logic [17:0] SW,
         input logic [3:0] KEY,
-        output logic [7:0] VGA_R. VGA_G, VGA_B,
+        output logic [7:0] VGA_R, VGA_G, VGA_B,
         output logic VGA_BLANK_N,VGA_CLK,VGA_SYNC_N,
         output logic VGAA_VS,VGA_HS,
         output logic [6:0] HEX0, HEX1, HEX2, HEX3,
@@ -18,7 +18,7 @@ module arcadeChipInterface(
 
     always_comb begin
         clock = CLOCK_50;
-        CoinInserted = ~KEY[1];
+        coinInserted = ~KEY[1];
         reset = ~KEY[0];
         debug = SW[15];
         CoinValue = SW[17:15];
