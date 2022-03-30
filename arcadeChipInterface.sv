@@ -37,12 +37,12 @@ module arcadeChipInterface(
     logic [6:0] HEX7, HEX6, HEX5, HEX4;
 
     always_comb begin
-        blank[7:4] = 4'b1111;
-        blank[3:0] = 4'b0000;
+        blank[7:5] = 3'b111;
+        blank[4:0] = 5'b00000;
         BCD7 = 4'd0;
         BCD6 = 4'd0;
         BCD5 = 4'd0;
-        BCD4 = 4'd0;
+        BCD4 = leftOver
         BCD3 = Znarly;
         BCD2 = Zood;
         BCD1 = RoundNumber;
